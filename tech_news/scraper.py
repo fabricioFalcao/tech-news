@@ -23,8 +23,16 @@ def fetch(url):
 
 # Requisito 2
 def scrape_updates(html_content):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    soup = BeautifulSoup(html_content, "html.parser")
+    soup.prettify()
+
+    news = []
+
+    for card in soup.find_all("article", {"class": "entry-preview"}):
+        url = card.find("h2", {"class": "entry-title"}).a["href"]
+        news.append(url)
+
+    return news
 
 
 # Requisito 3
