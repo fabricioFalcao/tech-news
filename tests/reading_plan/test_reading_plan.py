@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from tech_news.analyzer.reading_plan import ReadingPlanService
 
 # Test case data
