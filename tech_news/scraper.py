@@ -37,14 +37,49 @@ def scrape_updates(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    soup = BeautifulSoup(html_content, "html.parser")
+    soup.prettify()
+
+    try:
+        return soup.find("a", {"class": "next page-numbers"})["href"]
+    except TypeError:
+        return None
 
 
 # Requisito 4
 def scrape_news(html_content):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    soup = BeautifulSoup(html_content, "html.parser")
+    soup.prettify()
+
+    scrape_news = {}
+
+    scrape_news["url"] = soup.find("link", {"rel": "canonical"})["href"]
+
+    scrape_news["title"] = soup.find(
+        "h1", {"class": "entry-title"}
+    ).text.strip()
+
+    scrape_news["timestamp"] = soup.find(
+        "li", {"class": "meta-date"}
+    ).text.strip()
+
+    scrape_news["writer"] = soup.find("span", {"class": "author"}).text.strip()
+
+    scrape_news["reading_time"] = int(
+        soup.find("li", {"class": "meta-reading-time"}).text.split()[0]
+    )
+
+    scrape_news["summary"] = soup.find(
+        "div", {"class": "entry-content"}
+    ).p.text.strip()
+
+    scrape_news["category"] = (
+        soup.find("a", {"class": "category-style"})
+        .find("span", {"class": "label"})
+        .text.strip()
+    )
+
+    return scrape_news
 
 
 # Requisito 5
